@@ -19,7 +19,7 @@ globals:
   mngr_user: manager
   dbnodeType: mariadb-dockerized
   xms: 256M
-  tomcat_maxpostsize: 2097152  # tomcat9's default value
+  tomcat_maxpostsize: 2097152 # tomcat9's default value
 
 ssl: true
 skipNodeEmails: true
@@ -51,22 +51,16 @@ onBeforeInstall: |
     "count": ${settings.haproxyNodeCount},
     "cloudlets": 8,
     "env": {
-        "DATADOGAPIKEY": __secret__DATADOGAPIKEY,
-        "_PROVIDE": "haproxy",
-        "_ROLE": "reverse_proxy",
-        "envName": "${settings.shortdomain}",
-        "envmode": envmode,
-        "haproxy_cfg_timeout_server": "5m"
-      },
-    "distribution": {
-        "mode": "STRICT",
-        "zones": [
-            {high_iops: false}
-        ]
-      },
+      "DATADOGAPIKEY": __secret__DATADOGAPIKEY,
+      "_PROVIDE": "haproxy",
+      "_ROLE": "reverse_proxy",
+      "envName": "${settings.shortdomain}",
+      "envmode": envmode,
+      "haproxy_cfg_timeout_server": "5m"
+    },
     "volumes": [
       "/etc/haproxy"
-      ]
+    ]
   }
   nodes.push(node_haproxy);
 
@@ -107,33 +101,27 @@ onBeforeInstall: |
     "startServiceOnCreation": false,
     "isSLBAccessEnabled": false,
     "env": {
-        "DB_USER": "${globals.db_user}",
-        "DB_PASSWORD": __secret__dbPass,
-        "MANAGER_USER": "${globals.mngr_user}",
-        "XMS": "${globals.xms}",
-        "XMX": browsingXmx,
-        "DATADOGAPIKEY": __secret__DATADOGAPIKEY,
-        "DB_USER_DATADOG": __secret__dbUserDatadog,
-        "DATADOG_APM_ENABLED": "true",
-        "DX_VERSION": "${settings.productVersion}",
-        "_PROVIDE": "jahia",
-        "_ROLE": "Browsing",
-        "envName": "${settings.shortdomain}",
-        "DB_ENDPOINT": db_scheme,
-        "HEALTHCHECK_DURATION": "240",
-        "envmode": envmode,
-        "jahia_cfg_elasticsearch_prefix": "${settings.shortdomain}",
-        "jahia_cfg_org_jahia_ehcachemanager_maxBytesLocalHeap": browsingMaxBytesLocalHeap,
-        "jahia_cfg_org_jahia_ehcachemanager_big_maxBytesLocalHeap": browsingBigMaxBytesLocalHeap,
-        "HAPROXY_NODES_COUNT": "${settings.haproxyNodeCount}",
-        "tomcat_cfg_maxpostsize": "${globals.tomcat_maxpostsize}",
-      },
-    "distribution": {
-        "mode": "STRICT",
-        "zones": [
-            {high_iops: false}
-        ]
-      }
+      "DB_USER": "${globals.db_user}",
+      "DB_PASSWORD": __secret__dbPass,
+      "MANAGER_USER": "${globals.mngr_user}",
+      "XMS": "${globals.xms}",
+      "XMX": browsingXmx,
+      "DATADOGAPIKEY": __secret__DATADOGAPIKEY,
+      "DB_USER_DATADOG": __secret__dbUserDatadog,
+      "DATADOG_APM_ENABLED": "true",
+      "DX_VERSION": "${settings.productVersion}",
+      "_PROVIDE": "jahia",
+      "_ROLE": "Browsing",
+      "envName": "${settings.shortdomain}",
+      "DB_ENDPOINT": db_scheme,
+      "HEALTHCHECK_DURATION": "240",
+      "envmode": envmode,
+      "jahia_cfg_elasticsearch_prefix": "${settings.shortdomain}",
+      "jahia_cfg_org_jahia_ehcachemanager_maxBytesLocalHeap": browsingMaxBytesLocalHeap,
+      "jahia_cfg_org_jahia_ehcachemanager_big_maxBytesLocalHeap": browsingBigMaxBytesLocalHeap,
+      "HAPROXY_NODES_COUNT": "${settings.haproxyNodeCount}",
+      "tomcat_cfg_maxpostsize": "${globals.tomcat_maxpostsize}",
+    },
   }
   if (dockerImage == "undefined") {
     node_cp['nodeType'] = "jahia";
@@ -176,33 +164,27 @@ onBeforeInstall: |
     "startServiceOnCreation": false,
     "isSLBAccessEnabled": false,
     "env": {
-        "DB_USER": "${globals.db_user}",
-        "DB_PASSWORD": __secret__dbPass,
-        "MANAGER_USER": "${globals.mngr_user}",
-        "XMS": "${globals.xms}",
-        "XMX": procXmx,
-        "DATADOGAPIKEY": __secret__DATADOGAPIKEY,
-        "DB_USER_DATADOG": __secret__dbUserDatadog,
-        "DATADOG_APM_ENABLED": "true",
-        "DX_VERSION": "${settings.productVersion}",
-        "_PROVIDE": "jahia",
-        "_ROLE": "Processing",
-        "envName": "${settings.shortdomain}",
-        "DB_ENDPOINT": db_scheme,
-        "HEALTHCHECK_DURATION": "240",
-        "envmode": envmode,
-        "jahia_cfg_elasticsearch_prefix": "${settings.shortdomain}",
-        "jahia_cfg_org_jahia_ehcachemanager_maxBytesLocalHeap": procMaxBytesLocalHeap,
-        "jahia_cfg_org_jahia_ehcachemanager_big_maxBytesLocalHeap": procBigMaxBytesLocalHeap,
-        "HAPROXY_NODES_COUNT": "${settings.haproxyNodeCount}",
-        "tomcat_cfg_maxpostsize": "${globals.tomcat_maxpostsize}",
-      },
-    "distribution": {
-        "mode": "STRICT",
-        "zones": [
-            {high_iops: false}
-        ]
-      }
+      "DB_USER": "${globals.db_user}",
+      "DB_PASSWORD": __secret__dbPass,
+      "MANAGER_USER": "${globals.mngr_user}",
+      "XMS": "${globals.xms}",
+      "XMX": procXmx,
+      "DATADOGAPIKEY": __secret__DATADOGAPIKEY,
+      "DB_USER_DATADOG": __secret__dbUserDatadog,
+      "DATADOG_APM_ENABLED": "true",
+      "DX_VERSION": "${settings.productVersion}",
+      "_PROVIDE": "jahia",
+      "_ROLE": "Processing",
+      "envName": "${settings.shortdomain}",
+      "DB_ENDPOINT": db_scheme,
+      "HEALTHCHECK_DURATION": "240",
+      "envmode": envmode,
+      "jahia_cfg_elasticsearch_prefix": "${settings.shortdomain}",
+      "jahia_cfg_org_jahia_ehcachemanager_maxBytesLocalHeap": procMaxBytesLocalHeap,
+      "jahia_cfg_org_jahia_ehcachemanager_big_maxBytesLocalHeap": procBigMaxBytesLocalHeap,
+      "HAPROXY_NODES_COUNT": "${settings.haproxyNodeCount}",
+      "tomcat_cfg_maxpostsize": "${globals.tomcat_maxpostsize}",
+    },
   }
   if (dockerImage == "undefined") {
     node_proc['nodeType'] = "jahia";
@@ -234,24 +216,18 @@ onBeforeInstall: |
     "cloudlets": mariadbCloudlets,
     "isSLBAccessEnabled": false,
     "env": {
-        "ADMINPANEL_ENABLED": false,
-        "DATADOGAPIKEY": __secret__DATADOGAPIKEY,
-        "DB_USER_DATADOG": __secret__dbUserDatadog,
-        "PHPMYADMIN_ENABLED": false,
-        "DB_USER": "${globals.db_user}",
-        "DB_PASS": __secret__dbPass,
-        "_PROVIDE": "Database",
-        "_ROLE": db_scheme,
-        "envName": "${settings.shortdomain}",
-        "envmode": envmode,
-        "JELASTIC_EXPOSE": false,
-      },
-    "distribution": {
-        "mode": "STRICT",
-        "zones": [
-            {high_iops: false}
-        ]
-      }
+      "ADMINPANEL_ENABLED": false,
+      "DATADOGAPIKEY": __secret__DATADOGAPIKEY,
+      "DB_USER_DATADOG": __secret__dbUserDatadog,
+      "PHPMYADMIN_ENABLED": false,
+      "DB_USER": "${globals.db_user}",
+      "DB_PASS": __secret__dbPass,
+      "_PROVIDE": "Database",
+      "_ROLE": db_scheme,
+      "envName": "${settings.shortdomain}",
+      "envmode": envmode,
+      "JELASTIC_EXPOSE": false,
+    },
   }
   nodes.push(node_mariadb);
   var resp = {
