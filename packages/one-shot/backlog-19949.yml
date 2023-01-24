@@ -1,0 +1,51 @@
+---
+type: update
+version: 1.5.2
+name: BACKLOG-19949
+id: backlog-19949
+description:
+  short: Update a module and restart right after to reproduce module state issue
+
+mixins:
+  - "../../mixins/common.yml"
+  - "../../mixins/jahia.yml"
+
+onInstall:
+  - setGlobalRepoRootUrl
+  - forEach(env.nodes):
+      - forEach(env.nodes):
+          - installModule:
+              moduleSymname: server-availability-manager
+              moduleVersion: 2.3.0
+              moduleGroupId: org.jahia.modules
+              moduleRepository: jahia-releases
+              startModule: true
+          - uninstallModuleVersion:
+              moduleSymname: server-availability-manager
+              moduleVersion: 2.4.0
+          - restartAndCheckModule: 2.3.0
+          - installOrUpgradeModule:
+              moduleSymname: server-availability-manager
+              moduleVersion: 2.4.0
+              moduleGroupId: org.jahia.modules
+              moduleRepository: jahia-releases
+          - restartAndCheckModule: 2.4.0
+
+actions:
+  restartAndCheckModule:
+    - api: environment.control.RestartNodeById
+      nodeId: ${nodes.proc.first.id}
+    - checkModule:
+        moduleSymname: server-availability-manager
+    - if( "${globals.moduleState}" != "started" ):
+        - return:
+            type: error
+            message: "Module isn't started"
+    - if( ${globals.installedVersionsCount} > 1 ):
+        - return:
+            type: error
+            message: "Multiple versions installed"
+    - if( "${globals.runningVersion}" != "${this}" ):
+        - return:
+            type: error
+            message: "Running version is ${globals.runningVersion} instead of ${this}"
